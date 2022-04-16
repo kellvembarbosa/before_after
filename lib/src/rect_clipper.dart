@@ -8,6 +8,7 @@ class RectClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
+
     path.lineTo(size.width * clipFactor, 0.0);
     path.lineTo(size.width * clipFactor, size.height);
     path.lineTo(0.0, size.height);
@@ -36,4 +37,20 @@ class RectClipperVertical extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => true;
+}
+
+class SliderCustomTrackShape extends RoundedRectSliderTrackShape {
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double? trackHeight = sliderTheme.trackHeight;
+    final double trackLeft = offset.dx;
+    final double trackTop = offset.dy + (parentBox.size.height - trackHeight!) / 2;
+    final double trackWidth = parentBox.size.width;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
+  }
 }

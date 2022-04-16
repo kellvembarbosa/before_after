@@ -72,10 +72,11 @@ class _BeforeAfterState extends State<BeforeAfter> {
               trackHeight: 0.0,
               overlayColor: widget.overlayColor,
               thumbShape: CustomThumbShape(widget.thumbRadius, widget.thumbColor),
+              trackShape: SliderCustomTrackShape(),
             ),
             child: widget.isVertical
                 ? RotatedBox(
-                    quarterTurns: 1,
+                    quarterTurns: -1,
                     child: Slider(
                       value: _clipFactor,
                       onChanged: (double factor) => setState(() => this._clipFactor = factor),
@@ -123,17 +124,20 @@ class CustomThumbShape extends SliderComponentShape {
   }
 
   @override
-  void paint(PaintingContext context, Offset center,
-      {Animation<double>? activationAnimation,
-      Animation<double>? enableAnimation,
-      bool? isDiscrete,
-      TextPainter? labelPainter,
-      required RenderBox parentBox,
-      SliderThemeData? sliderTheme,
-      TextDirection? textDirection,
-      double? value,
-      double? textScaleFactor,
-      Size? sizeWithOverflow}) {
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    Animation<double>? activationAnimation,
+    Animation<double>? enableAnimation,
+    bool? isDiscrete,
+    TextPainter? labelPainter,
+    required RenderBox parentBox,
+    SliderThemeData? sliderTheme,
+    TextDirection? textDirection,
+    double? value,
+    double? textScaleFactor,
+    Size? sizeWithOverflow,
+  }) {
     final Canvas canvas = context.canvas;
 
     final Paint paint = Paint()

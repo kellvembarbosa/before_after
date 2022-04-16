@@ -1,3 +1,11 @@
+2.1.2
+
+    Removed padding of slider for custom width.
+
+2.1.1
+
+    Added new vertical padding
+
 2.1.0
 
     Added fix for Flutter 1.19.
