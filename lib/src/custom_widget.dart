@@ -11,6 +11,8 @@ class BeforeAfter extends StatefulWidget {
   final double thumbRadius;
   final Color? overlayColor;
   final bool isVertical;
+  final double? paddingVertical;
+  final double? paddingHorizontal;
 
   const BeforeAfter({
     Key? key,
@@ -23,6 +25,8 @@ class BeforeAfter extends StatefulWidget {
     this.thumbRadius = 16.0,
     this.overlayColor,
     this.isVertical = false,
+    this.paddingVertical = 24,
+    this.paddingHorizontal = 24,
   }) : super(key: key);
 
   @override
@@ -39,8 +43,8 @@ class _BeforeAfterState extends State<BeforeAfter> {
       children: <Widget>[
         Padding(
           padding: widget.isVertical
-              ? const EdgeInsets.symmetric(vertical: 24.0)
-              : const EdgeInsets.symmetric(horizontal: 24.0),
+              ? EdgeInsets.symmetric(vertical: widget.paddingVertical!)
+              : EdgeInsets.symmetric(horizontal: widget.paddingHorizontal!),
           child: SizedImage(
             widget.afterImage,
             widget.imageHeight,
@@ -50,12 +54,10 @@ class _BeforeAfterState extends State<BeforeAfter> {
         ),
         Padding(
           padding: widget.isVertical
-              ? const EdgeInsets.symmetric(vertical: 24.0)
-              : const EdgeInsets.symmetric(horizontal: 24.0),
+              ? EdgeInsets.symmetric(vertical: widget.paddingVertical!)
+              : EdgeInsets.symmetric(horizontal: widget.paddingHorizontal!),
           child: ClipPath(
-            clipper: widget.isVertical
-                ? RectClipperVertical(_clipFactor)
-                : RectClipper(_clipFactor),
+            clipper: widget.isVertical ? RectClipperVertical(_clipFactor) : RectClipper(_clipFactor),
             child: SizedImage(
               widget.beforeImage,
               widget.imageHeight,
@@ -69,22 +71,19 @@ class _BeforeAfterState extends State<BeforeAfter> {
             data: SliderThemeData(
               trackHeight: 0.0,
               overlayColor: widget.overlayColor,
-              thumbShape:
-                  CustomThumbShape(widget.thumbRadius, widget.thumbColor),
+              thumbShape: CustomThumbShape(widget.thumbRadius, widget.thumbColor),
             ),
             child: widget.isVertical
                 ? RotatedBox(
                     quarterTurns: 1,
                     child: Slider(
                       value: _clipFactor,
-                      onChanged: (double factor) =>
-                          setState(() => this._clipFactor = factor),
+                      onChanged: (double factor) => setState(() => this._clipFactor = factor),
                     ),
                   )
                 : Slider(
                     value: _clipFactor,
-                    onChanged: (double factor) =>
-                        setState(() => this._clipFactor = factor),
+                    onChanged: (double factor) => setState(() => this._clipFactor = factor),
                   ),
           ),
         ),
@@ -97,10 +96,7 @@ class SizedImage extends StatelessWidget {
   final Widget _image;
   final double? _height, _width, _imageCornerRadius;
 
-  const SizedImage(
-      this._image, this._height, this._width, this._imageCornerRadius,
-      {Key? key})
-      : super(key: key);
+  const SizedImage(this._image, this._height, this._width, this._imageCornerRadius, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -164,9 +160,6 @@ class CustomThumbShape extends SliderComponentShape {
       paint,
     );
 
-    canvas.drawRect(
-        Rect.fromCenter(
-            center: center, width: 4.0, height: parentBox.size.height),
-        paint);
+    canvas.drawRect(Rect.fromCenter(center: center, width: 4.0, height: parentBox.size.height), paint);
   }
 }
